@@ -1,8 +1,1 @@
-Bom dia Ricardo
-Dois órgãos apresentaram problema de criação de conta salário
-Órgão 181101  – ASS. DE SAÚDE, ESPORTE, LAZER E CULTURA na agência 28 para a beneficiaria LERIA MATOS DE MENESES RIBEIRO de CPF: 01442873230 e Matricula 0000690
-
-Obs.: Ao tentar criar o sistema exibe a mensagem que já existe conta salário, realizamos consulta através de CPF e as contas que constam estão todas enceradas, tentamos fazer a alteração de sexo como e feito pelo Mauro que em alguns casos fizemos e conseguimos resolver, porém dessa vez não resolveu, solicitamos via e-mail ao Sr. Alex da GEGOV para o mesmo criar a conta e o mesmo recebeu os mesmos avisos de que já existia conta salário para a beneficiária, o mesmo tentou cancelar assim como tentamos no MultiservNET  junto da cliente e o sistema exibiu a mensagem de código 20004 o qual descreve que a conta já foi encerada, porém não conseguimos criar outra.
-
-
-Conversei com o Victor a respeito dessa situação o mesmo pediu para eu ver com você se está saindo uma versão com a correção dessas questões pontuadas, ou existe outra alternativa pois o cliente está próximo de efetuar lançamentos para os beneficiários citados acima.
+# 14:32 18/06/2020 - Neide Supervisora da Maiara (94)99131-1001 número fixo (94)3424-9500 Dep Pessoal para falarmos com a Maiara da Asselc, pagamento será feito dia 06/07/2020 conta salário deve ser criada na Agência 0028 para a Beneficiaria LERIA MATOS DE MENESES RIBEIRO de CPF: 01442873230 e Matricula 0000690 no orgão 181101, 181101_IRONEIDE, 101010, Celular Maiara (94)99279-6145

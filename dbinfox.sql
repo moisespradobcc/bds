@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27-Jul-2020 às 22:42
+-- Tempo de geração: 29-Jul-2020 às 23:09
 -- Versão do servidor: 10.4.11-MariaDB
 -- versão do PHP: 7.2.26
 
@@ -78,18 +78,20 @@ CREATE TABLE `tbusuarios` (
   `usuario` varchar(50) NOT NULL,
   `fone` varchar(15) DEFAULT NULL,
   `login` varchar(15) NOT NULL,
-  `senha` varchar(15) NOT NULL
+  `senha` varchar(15) NOT NULL,
+  `perfil` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `tbusuarios`
 --
 
-INSERT INTO `tbusuarios` (`iduser`, `usuario`, `fone`, `login`, `senha`) VALUES
-(1, 'Jose de Assis', '9999-9999', 'jose.assis', '123456'),
-(2, 'Moisés Prado', '8086-9416', 'moises.prado', '123456'),
-(4, 'Marinelma Batista', '8086-2020', 'nelma.batista', '123456'),
-(5, 'Administrador', '8888-8888', 'admin', 'admin');
+INSERT INTO `tbusuarios` (`iduser`, `usuario`, `fone`, `login`, `senha`, `perfil`) VALUES
+(1, 'Jose de Assis', '9999-9999', 'jose.assis', '123456', 'admin'),
+(2, 'Moisés Prado', '8086-9416', 'moises.prado', '123456', 'user'),
+(4, 'Marinelma Batista', '8086-2020', 'nelma.batista', '123456', 'user'),
+(5, 'Administrador', '8888-8888', 'admin', 'admin', 'admin'),
+(6, 'Leandro Ramos', '4444-4444', 'leandro.ramos', '123456', 'user');
 
 --
 -- Índices para tabelas despejadas

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 29-Jul-2020 às 23:09
+-- Tempo de geração: 07-Ago-2020 às 22:29
 -- Versão do servidor: 10.4.11-MariaDB
 -- versão do PHP: 7.2.26
 
@@ -41,7 +41,16 @@ CREATE TABLE `tbclientes` (
 --
 
 INSERT INTO `tbclientes` (`idcli`, `nomecli`, `endcli`, `fonecli`, `emailcli`) VALUES
-(1, 'João Ferreira da Silva', 'Vila 4 Irmãos casa 10', '9999-9999', 'joao.silva@hotmail.com');
+(1, 'João Ferreira da Silva', 'Vila 4 Irmãos casa 10', '2222-3333', 'joao.silva@hotmail.com'),
+(2, 'Nelma Batista da Costa', 'Vila 4 irmãos casa 5', '7777-6666', 'nelma@hotmail.com'),
+(3, 'Debora Gibson Silva', 'Passagem São Silvestre casa 20', '5555-5555', 'debora@gmail.com'),
+(4, 'Snaira Santos', 'Tenoné 100', '1010-2020', 'snaira@gmail.com'),
+(5, 'Bianca Silva', 'Monte alegre nº 200', '6060-7070', 'bia@yahoo.com.br'),
+(6, 'Beatriz Meireles', 'Mundurucus nº 1625', '9857-1254', 'bea@outlook.com'),
+(7, 'Luciana Mercês Alves', 'Barcarena 1547', '96857412', 'luh@outlook.com'),
+(8, 'Maria Lucua Ferreira da Silva', 'Vila 4 irmaos casa 10', '98547126', 'mlucia@bol.com.br'),
+(9, 'Helena Badari', 'Rua nova 1547', '95826471', 'hbadari@gmail.com'),
+(10, 'Daylane Laissa', 'São sebastião da boa vista', '84956251', 'daylane@hotmail.com');
 
 -- --------------------------------------------------------
 
@@ -52,6 +61,8 @@ INSERT INTO `tbclientes` (`idcli`, `nomecli`, `endcli`, `fonecli`, `emailcli`) V
 CREATE TABLE `tbos` (
   `os` int(11) NOT NULL,
   `data_os` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tipo` varchar(15) NOT NULL,
+  `situacao` varchar(20) NOT NULL,
   `equipamento` varchar(150) NOT NULL,
   `defeito` varchar(150) NOT NULL,
   `servico` varchar(150) DEFAULT NULL,
@@ -64,8 +75,12 @@ CREATE TABLE `tbos` (
 -- Extraindo dados da tabela `tbos`
 --
 
-INSERT INTO `tbos` (`os`, `data_os`, `equipamento`, `defeito`, `servico`, `tecnico`, `valor`, `idcli`) VALUES
-(1, '2020-07-27 17:55:14', 'Notebook', 'Não liga', 'Troca da fonte', 'Zé', '87.50', 1);
+INSERT INTO `tbos` (`os`, `data_os`, `tipo`, `situacao`, `equipamento`, `defeito`, `servico`, `tecnico`, `valor`, `idcli`) VALUES
+(1, '2020-08-07 13:47:15', 'Orçamento', 'Aguardando Aprovação', 'Notebook modelo xyz', 'Não liga', 'Troca da fonte', 'Leandro', '230.00', 1),
+(2, '2020-08-07 13:55:11', 'Orçamento', 'Na bancada', 'Impressora deskjet modelo z', 'não puxa papel', '', '', '0.00', 5),
+(3, '2020-08-07 13:57:35', 'OS', 'Na bancada', 'PC', 'Vírus', 'Eliminação de vírus', 'Robson', '90.00', 7),
+(4, '2020-08-07 14:05:13', 'Orçamento', 'Na bancada', 'Notebook Positivo', 'Sistema operacional corrompindo', 'Formatação e instalação de sistema', 'Moisés', '100.00', 2),
+(5, '2020-08-07 16:32:44', 'Orçamento', 'Aguardando Aprovação', 'Desktop DELL Optlex 9914', 'Travando quando se abre o Word', 'Reinstalação de programas', 'Rodrigo Bemergui', '70.65', 4);
 
 -- --------------------------------------------------------
 
@@ -87,7 +102,7 @@ CREATE TABLE `tbusuarios` (
 --
 
 INSERT INTO `tbusuarios` (`iduser`, `usuario`, `fone`, `login`, `senha`, `perfil`) VALUES
-(1, 'Jose de Assis', '9999-9999', 'jose.assis', '123456', 'admin'),
+(1, 'Jose de Assis', '9999-9999', 'jose.assis', '123456', 'user'),
 (2, 'Moisés Prado', '8086-9416', 'moises.prado', '123456', 'user'),
 (4, 'Marinelma Batista', '8086-2020', 'nelma.batista', '123456', 'user'),
 (5, 'Administrador', '8888-8888', 'admin', 'admin', 'admin'),
@@ -125,13 +140,13 @@ ALTER TABLE `tbusuarios`
 -- AUTO_INCREMENT de tabela `tbclientes`
 --
 ALTER TABLE `tbclientes`
-  MODIFY `idcli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idcli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `tbos`
 --
 ALTER TABLE `tbos`
-  MODIFY `os` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `os` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restrições para despejos de tabelas

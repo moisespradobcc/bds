@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition template="../layout/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:define name="content">
+        <h:form id="frmListContratoVeiculo">
+            <p:growl id="growl" showDetail="true"/>     
+            <p:panel header="Contrato Veiculo">                
+                <f:facet name="footer">                                              
+                    <p:commandButton value="Novo" action="#{pbContratoVeiculoBean.limparObjetoPbContratoVeiculo()}" onclick="PF('dlCadContratoVeiculo').show()" update=":frmDlCadContratoVeiculo" />
+                    &nbsp;
+                    <p:commandButton value="Pesquisar" action="#{indexManager.voltar()}" />                                   
+                    <p:commandButton value="Voltar" action="#{indexManager.voltar()}" style="float: right" />
+                </f:facet>
+            </p:panel>
+            <p:dataTable id="ContratoVeiculo" 
+                         var="c" 
+                         value="#{pbContratoVeiculoBean.findAll()}"  
+                         rows="8"
+                         paginator="true" 
+                         paginatorAlwaysVisible="false"  
+                         paginatorPosition="bottom"
+                         emptyMessage="Nenhum Registro Encontrado">
+                <f:facet name="header">
+                    Contratos de Veículos Cadastrados
+                </f:facet>
+                <p:column style="width: 5%" headerText="Id">
+                    <h:outputText value="#{c.pbIdCont}" />
+                </p:column>
+                <p:column headerText="Nome Devedor">
+                    <h:outputText value="#{c.pbContNomeDevedor}" />
+                </p:column>
+                <p:column headerText="CPF/CNPJ">
+                    <h:outputText value="#{c.pbContCpfCnpj}" />
+                </p:column>                        
+                <p:column headerText="Telefone">
+                    <h:outputText value="#{c.pbContTelefone}" />
+                </p:column>
+                <p:column headerText="CEP">
+                    <h:outputText value="#{c.pbContCep}" />
+                </p:column>
+                <p:column headerText="UF">
+                    <h:outputText value="#{c.pbContUf}" />
+                </p:column>
+                <p:column style="text-align: center;">
+                    <f:facet name="header">Ações</f:facet>
+                    <p:commandButton icon="pi pi-user-edit"
+                                     styleClass="edit-button rounded-button ui-button-info" 
+                                     action="#{pbContratoVeiculoBean.buscaContratoVeic(c)}"
+                                     title="Alterar Registro"
+                                     onclick="PF('dlAltContratoVeiculo').show()" 
+                                     update=":frmDlAltContratoVeiculo">
+                    </p:commandButton>&nbsp;
+                    <p:commandButton icon="pi pi-times"
+                                     styleClass="danger-button rounded-button ui-button-danger" action="#{pbContratoVeiculoBean.deleteContratoVeic(c)}"  
+                                     onclick="return confirm('Tem certeza que deseja Excluir o registro?')"
+                                     title="Deletar Registro"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog  height="500"  widgetVar="dlCadContratoVeiculo" header="Contratos Veículos" modal="true" appendTo="@(body)">
+            <h:form id="frmDlCadContratoVeiculo" acceptcharset="ISO-8859-1" enctype="multipart/form-data">
+                <p:accordionPanel multiple="true" widgetVar="multiple">
+                    <p:tab title="Dados do devedor do contrato">
+                        <p:panelGrid columns="6" styleClass="semBorda">
+                            <p:outputLabel value="Nome Devedor:" for="pbContNomeDevedor" />
+                            <p:inputText id="pbContNomeDevedor" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContNomeDevedor}" title="Informe o Nome Devedor" required="true" requiredMessage="O campo Nome Devedor é obrigatório." />
+                            <p:outputLabel value="CNPJ:" for="pbContCpfCnpj" />
+                            <p:inputText id="pbContCpfCnpj" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContCpfCnpj}" title="Informe o CNPJ" required="true" requiredMessage="O campo CNPJ é obrigatório." />
+                            <p:outputLabel value="Telefone:" for="pbContTelefone" />
+                            <p:inputText id="pbContTelefone" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContTelefone}" title="Informe o Telefone" required="true" requiredMessage="O campo Telefone é obrigatório." />
+                            <p:outputLabel value="CEP:" for="pbContCep" />
+                            <p:inputText id="pbContCep" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContCep}" title="Informe o CEP" required="true" requiredMessage="O campo CEP é obrigatório." />
+                            <p:outputLabel value="UF:" for="pbContUf" />
+                            <p:selectOneMenu id="pbContUf" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContUf}" title="Informe a UF" required="true" requiredMessage="O campo UF é obrigatório." >
+                                <f:selectItem itemLabel="-----------------------" />                            
+                                <f:selectItem itemLabel="ACRE"                  itemValue="AC"/>	
+                                <f:selectItem itemLabel="ALAGOAS"		itemValue="AL"/>	
+                                <f:selectItem itemLabel="AMAPÁ"                 itemValue="AP"/>	
+                                <f:selectItem itemLabel="AMAZONAS"		itemValue="AM"/>	
+                                <f:selectItem itemLabel="BAHIA"                 itemValue="BA"/>	
+                                <f:selectItem itemLabel="CEARÁ"                 itemValue="CE"/>	
+                                <f:selectItem itemLabel="ESPÍRITO SANTO"	itemValue="ES"/>	
+                                <f:selectItem itemLabel="GOIÁS"                 itemValue="GO"/>	
+                                <f:selectItem itemLabel="MARANHÃO"		itemValue="MA"/>	
+                                <f:selectItem itemLabel="MATO GROSSO"	        itemValue="MT"/>	
+                                <f:selectItem itemLabel="MATO GROSSO DO SUL"	itemValue="MS"/>	
+                                <f:selectItem itemLabel="MINAS GERAIS"		itemValue="MG"/>	
+                                <f:selectItem itemLabel="PARÁ"			itemValue="PA"/>	
+                                <f:selectItem itemLabel="PARAÍBA"		itemValue="PB"/>	
+                                <f:selectItem itemLabel="PARANÁ"		itemValue="PR"/>	
+                                <f:selectItem itemLabel="PERNAMBUCO"		itemValue="PE"/>	
+                                <f:selectItem itemLabel="PIAUÍ"                 itemValue="PI"/>	
+                                <f:selectItem itemLabel="RIO DE JANEIRO"	itemValue="RJ"/>	
+                                <f:selectItem itemLabel="RIO GRANDE DO NORTE"	itemValue="RN"/>	
+                                <f:selectItem itemLabel="RIO GRANDE DO SUL"	itemValue="RS"/>	
+                                <f:selectItem itemLabel="RONDÔNIA"		itemValue="RO"/>	
+                                <f:selectItem itemLabel="RORAIMA"		itemValue="RR"/>	
+                                <f:selectItem itemLabel="SANTA CATARINA"	itemValue="SC"/>	
+                                <f:selectItem itemLabel="SÃO PAULO"		itemValue="SP"/>	
+                                <f:selectItem itemLabel="SERGIPE"		itemValue="SE"/>	
+                                <f:selectItem itemLabel="TOCANTINS"		itemValue="TO"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Municipio:" for="pbContMunicipio" />
+                            <p:inputText id="pbContMunicipio" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContMunicipio}" title="Informe o Municipio" required="true" requiredMessage="O campo Municipio é obrigatório." />
+                            <p:outputLabel value="Bairro:" for="pbContBairro" />
+                            <p:inputText id="pbContBairro" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContBairro}" title="Informe o Bairro" required="true" requiredMessage="O campo Bairro é obrigatório." />
+                            <p:outputLabel value="pbContNumero:" for="pbContNumero" />
+                            <p:inputText id="pbContNumero" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContNumero}" title="Informe o Nº" required="true" requiredMessage="O campo Nº é obrigatório." />
+                            <p:outputLabel value="Complemento:" for="pbContComplemento" />
+                            <p:inputText id="pbContComplemento" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContComplemento}" title="Informe o Complemento" />
+                            <p:outputLabel value="Logradouro:" for="pbContLogradouro" />
+                            <p:inputText id="pbContLogradouro" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContLogradouro}" title="Informe o Logradouro" required="true" requiredMessage="O campo Logradouro é obrigatório." />
+                        </p:panelGrid>
+
+                    </p:tab>
+                    <p:tab title="Dados do Veiculo">
+                        <p:panelGrid columns="6" styleClass="semBorda">
+                            <p:outputLabel value="Chassi:" for="pbContChassi" />
+                            <p:inputText id="pbContChassi" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContChassi}" title="Informe o Chassi" required="true" requiredMessage="O campo Chassi é obrigatório." />
+                            <p:outputLabel value="Tipo de Veiculo:" for="pbContTipoVeiculo" />
+                            <p:selectOneMenu id="pbContTipoVeiculo" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContTipoVeiculo}" title="Informe o Tipo de Veículo" required="true" requiredMessage="O campo Tipo de Veículo é obrigatório." placeholder="Novo ou Usado ?" >
+                                <f:selectItem itemLabel="-----------------------" />                            
+                                <f:selectItem itemLabel="NOVO"                  itemValue="NOVO"/>	
+                                <f:selectItem itemLabel="USADO"		itemValue="USADO"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Motor:" for="pbContMotor" />
+                            <p:inputText id="pbContMotor" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContMotor}" title="Informe o Motor" required="true" requiredMessage="O campo Motor é obrigatório." />
+                            <p:outputLabel value="Placa:" for="pbContPlaca" />
+                            <p:inputText id="pbContPlaca" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContPlaca}" title="Informe a Placa" required="true" requiredMessage="O campo Placa é obrigatório." />
+                        </p:panelGrid>
+                    </p:tab>
+                    <p:tab title="Dados do Contrato">
+                        <p:panelGrid columns="6" styleClass="semBorda">
+                            <p:outputLabel value="Tipo:" for="pbContTipo" />
+                            <p:inputText id="pbContTipo" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContTipo}" title="Informe o Tipo" required="true" requiredMessage="O campo Tipo é obrigatório." />
+                            <p:outputLabel value="Aditivo:" for="pbContAditivo" />
+                            <p:inputText id="pbContAditivo" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContAditivo}" title="Informe o Aditivo" required="true" requiredMessage="O campo Aditivo é obrigatório." />
+                            <p:outputLabel value="Nº:" for="pbContNum" />
+                            <p:inputText id="pbContNum" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContNum}" title="PbContNum" />
+                            <p:outputLabel value="Data:" for="pbContDtContrato" />
+                            <p:datePicker id="pbContDtContrato" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContDtContrato}" title="Selecione uma data " required="true" requiredMessage="O campo Data é obrigatório."/>
+                            <p:outputLabel value="Vl Tx Contrato:" for="pbContValorTaxaContrato" />
+                            <p:inputText id="pbContValorTaxaContrato" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContValorTaxaContrato}" title="Informe o Valor da taxa do contrato" required="true" requiredMessage="O campo Vl Tx Contrato é obrigatório." />
+                            <p:outputLabel value="Vl Tx Mês:" for="pbContTaxaJurosMes" />
+                            <p:inputText id="pbContTaxaJurosMes" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContTaxaJurosMes}" title="Informe a Taxa de Juros por mês" required="true" requiredMessage="O campo Vl Tx Mês é obrigatório." />
+                            <p:outputLabel value="Vl Tx Ano:" for="pbContTaxaJurosAno" />
+                            <p:inputText id="pbContTaxaJurosAno" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContTaxaJurosAno}" title="Informe a Taxa de Juros por ano;" required="true" requiredMessage="O campo Vl Tx Ano é obrigatório." />
+                            <p:outputLabel value="Total do Financiamento:" for="pbContTotalFinanciamento" />
+                            <p:inputText id="pbContTotalFinanciamento" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContTotalFinanciamento}" title="Informe o Total do Financiamento" required="true" requiredMessage="O campo Total do Financiamento é obrigatório."/>
+                            <p:outputLabel value="Indicativo Juros Multa:" for="pbContIndicativoJurosMulta" />
+                            <p:inputText id="pbContIndicativoJurosMulta" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContIndicativoJurosMulta}" title="Informe o Indicativo de Juros de Multa"/>
+                            <p:outputLabel value="Valor Juros Multa:" for="pbContValorJurosMulta" />
+                            <p:inputText id="pbContValorJurosMulta" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContValorJurosMulta}" title="PbContValorJurosMulta" />
+                            <p:outputLabel value="Indicativo Mora Dia:" for="pbContIndicativoMoraDia" />
+                            <p:inputText id="pbContIndicativoMoraDia" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContIndicativoMoraDia}" title="PbContIndicativoMoraDia" />
+                            <p:outputLabel value="Valor Mora Dia:" for="pbContValorMoraDia" />
+                            <p:inputText id="pbContValorMoraDia" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContValorMoraDia}" title="PbContValorMoraDia" />
+                            <p:outputLabel value="Valor Iof:" for="pbContValorIof" />
+                            <p:inputText id="pbContValorIof" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContValorIof}" title="PbContValorIof" />
+                            <p:outputLabel value="Qtd Parcela:" for="pbContQuantidadeParcela" />
+                            <p:inputText id="pbContQuantidadeParcela" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContQuantidadeParcela}" title="PbContQuantidadeParcela" />
+                            <p:outputLabel value="Valor Parcela:" for="pbContValorParcela" />
+                            <p:inputText id="pbContValorParcela" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContValorParcela}" title="PbContValorParcela" />
+                            <p:outputLabel value="Venc 1ª Parcela:" for="pbContVencPrimeiraParcela" />
+                            <p:datePicker id="pbContVencPrimeiraParcela" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContVencPrimeiraParcela}" title="PbContVencPrimeiraParcela" />
+                            <p:outputLabel value="Venc Ultima Parcela:" for="pbContVencUltimaParcela" />
+                            <p:datePicker id="pbContVencUltimaParcela" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContVencUltimaParcela}" title="PbContVencUltimaParcela" />
+                            <p:outputLabel value="Comissao:" for="pbContComissao" />
+                            <p:inputText id="pbContComissao" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContComissao}" title="PbContComissao" />
+                            <p:outputLabel value="Valor Comissao:" for="pbContValorComissao" />
+                            <p:inputText id="pbContValorComissao" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContValorComissao}" title="PbContValorComissao" />
+                            <p:outputLabel value="Data do Credito:" for="pbContDataCredito" />
+                            <p:datePicker id="pbContDataCredito" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContDataCredito}" title="PbContDataCredito" />
+                            <p:outputLabel value="tUf de Pagamento:" for="pbContUfPagamento" />
+                            <p:inputText id="pbContUfPagamento" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContUfPagamento}" title="PbContUfPagamento" />
+                            <p:outputLabel value="Cidade de Pagamento:" for="pbContCidadePagamento" />
+                            <p:inputText id="pbContCidadePagamento" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContCidadePagamento}" title="PbContCidadePagamento" />
+                            <p:outputLabel value="Indicativo Penalidade:" for="pbContIndicativoPenalidade" />
+                            <p:inputText id="pbContIndicativoPenalidade" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContIndicativoPenalidade}" title="PbContIndicativoPenalidade" />
+                            <p:outputLabel value="Penalidade:" for="pbContPenalidade" />
+                            <p:inputText id="pbContPenalidade" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContPenalidade}" title="PbContPenalidade" />
+                            <p:outputLabel value="Descricao Taxa Juros:" for="pbContDescricaoTaxaJuros" />
+                            <p:inputText id="pbContDescricaoTaxaJuros" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContDescricaoTaxaJuros}" title="PbContDescricaoTaxaJuros" />
+                            <p:outputLabel value="Indice:" for="pbContIndice" />
+                            <p:inputText id="pbContIndice" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContIndice}" title="PbContIndice" />
+                            <p:outputLabel value="Nº Grupo:" for="pbContNumeroGrupo" />
+                            <p:inputText id="pbContNumeroGrupo" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContNumeroGrupo}" title="PbContNumeroGrupo" />
+                            <p:outputLabel value="Nº Cota:" for="pbContNumeroCota" />
+                            <p:inputText id="pbContNumeroCota" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContNumeroCota}" title="PbContNumeroCota" />
+                            <f:facet name="footer">                                              
+                                <p:commandButton value="Salvar" onclick="PF('dlCadContratoVeiculo').hide()" action="#{pbContratoVeiculoBean.addContratoVeic()}" update="@form :frmListContratoVeiculo" />                    
+                                &nbsp;                                              
+                                <p:commandButton value="Cancelar" onclick="PF('dlCadContratoVeiculo').hide()"/>
+                            </f:facet>
+                        </p:panelGrid>
+                    </p:tab>
+                </p:accordionPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog height="500" widgetVar="dlAltContratoVeiculo" header="Alterar Contrato Veículo" modal="true" appendTo="@(body)">
+            <h:form id="frmDlAltContratoVeiculo" acceptcharset="ISO-8859-1" enctype="multipart/form-data">
+                <p:accordionPanel multiple="true" widgetVar="multiple">
+                    <p:tab title="Dados do devedor do contrato">
+                        <p:panelGrid columns="6" styleClass="semBorda">
+                            <p:outputLabel value="Nome Devedor:" for="pbContNomeDevedor" />
+                            <p:inputText id="pbContNomeDevedor" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContNomeDevedor}" title="Informe o Nome Devedor" required="true" requiredMessage="O campo Nome Devedor é obrigatório." />
+                            <p:outputLabel value="CNPJ:" for="pbContCpfCnpj" />
+                            <p:inputText id="pbContCpfCnpj" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContCpfCnpj}" title="Informe o CNPJ" required="true" requiredMessage="O campo CNPJ é obrigatório." />
+                            <p:outputLabel value="Telefone:" for="pbContTelefone" />
+                            <p:inputText id="pbContTelefone" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContTelefone}" title="Informe o Telefone" required="true" requiredMessage="O campo Telefone é obrigatório." />
+                            <p:outputLabel value="CEP:" for="pbContCep" />
+                            <p:inputText id="pbContCep" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContCep}" title="Informe o CEP" required="true" requiredMessage="O campo CEP é obrigatório." />
+                            <p:outputLabel value="UF:" for="pbContUf" />
+                            <p:selectOneMenu id="pbContUf" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContUf}" title="Informe a UF" required="true" requiredMessage="O campo UF é obrigatório." >
+                                <f:selectItem itemLabel="-----------------------" />                            
+                                <f:selectItem itemLabel="ACRE"                  itemValue="AC"/>	
+                                <f:selectItem itemLabel="ALAGOAS"		itemValue="AL"/>	
+                                <f:selectItem itemLabel="AMAPÁ"                 itemValue="AP"/>	
+                                <f:selectItem itemLabel="AMAZONAS"		itemValue="AM"/>	
+                                <f:selectItem itemLabel="BAHIA"                 itemValue="BA"/>	
+                                <f:selectItem itemLabel="CEARÁ"                 itemValue="CE"/>	
+                                <f:selectItem itemLabel="ESPÍRITO SANTO"	itemValue="ES"/>	
+                                <f:selectItem itemLabel="GOIÁS"                 itemValue="GO"/>	
+                                <f:selectItem itemLabel="MARANHÃO"		itemValue="MA"/>	
+                                <f:selectItem itemLabel="MATO GROSSO"	        itemValue="MT"/>	
+                                <f:selectItem itemLabel="MATO GROSSO DO SUL"	itemValue="MS"/>	
+                                <f:selectItem itemLabel="MINAS GERAIS"		itemValue="MG"/>	
+                                <f:selectItem itemLabel="PARÁ"			itemValue="PA"/>	
+                                <f:selectItem itemLabel="PARAÍBA"		itemValue="PB"/>	
+                                <f:selectItem itemLabel="PARANÁ"		itemValue="PR"/>	
+                                <f:selectItem itemLabel="PERNAMBUCO"		itemValue="PE"/>	
+                                <f:selectItem itemLabel="PIAUÍ"                 itemValue="PI"/>	
+                                <f:selectItem itemLabel="RIO DE JANEIRO"	itemValue="RJ"/>	
+                                <f:selectItem itemLabel="RIO GRANDE DO NORTE"	itemValue="RN"/>	
+                                <f:selectItem itemLabel="RIO GRANDE DO SUL"	itemValue="RS"/>	
+                                <f:selectItem itemLabel="RONDÔNIA"		itemValue="RO"/>	
+                                <f:selectItem itemLabel="RORAIMA"		itemValue="RR"/>	
+                                <f:selectItem itemLabel="SANTA CATARINA"	itemValue="SC"/>	
+                                <f:selectItem itemLabel="SÃO PAULO"		itemValue="SP"/>	
+                                <f:selectItem itemLabel="SERGIPE"		itemValue="SE"/>	
+                                <f:selectItem itemLabel="TOCANTINS"		itemValue="TO"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Municipio:" for="pbContMunicipio" />
+                            <p:inputText id="pbContMunicipio" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContMunicipio}" title="Informe o Municipio" required="true" requiredMessage="O campo Municipio é obrigatório." />
+                            <p:outputLabel value="Bairro:" for="pbContBairro" />
+                            <p:inputText id="pbContBairro" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContBairro}" title="Informe o Bairro" required="true" requiredMessage="O campo Bairro é obrigatório." />
+                            <p:outputLabel value="pbContNumero:" for="pbContNumero" />
+                            <p:inputText id="pbContNumero" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContNumero}" title="Informe o Nº" required="true" requiredMessage="O campo Nº é obrigatório." />
+                            <p:outputLabel value="Complemento:" for="pbContComplemento" />
+                            <p:inputText id="pbContComplemento" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContComplemento}" title="Informe o Complemento" required="true" requiredMessage="O campo Complemento é obrigatório." />
+                            <p:outputLabel value="Logradouro:" for="pbContLogradouro" />
+                            <p:inputText id="pbContLogradouro" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContLogradouro}" title="Informe o Logradouro" required="true" requiredMessage="O campo Logradouro é obrigatório." />
+                        </p:panelGrid>
+
+                    </p:tab>
+                    <p:tab title="Dados do Veiculo">
+                        <p:panelGrid columns="6" styleClass="semBorda">
+                            <p:outputLabel value="Chassi:" for="pbContChassi" />
+                            <p:inputText id="pbContChassi" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContChassi}" title="Informe o Chassi" required="true" requiredMessage="O campo Chassi é obrigatório." />
+                            <p:outputLabel value="Tipo de Veiculo:" for="pbContTipoVeiculo" />
+                            <p:inputText id="pbContTipoVeiculo" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContTipoVeiculo}" title="Informe o Tipo de Veículo" required="true" requiredMessage="O campo Tipo de Veículo é obrigatório." />
+                            <p:outputLabel value="Motor:" for="pbContMotor" />
+                            <p:inputText id="pbContMotor" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContMotor}" title="Informe o Motor" required="true" requiredMessage="O campo Motor é obrigatório." />
+                            <p:outputLabel value="Placa:" for="pbContPlaca" />
+                            <p:inputText id="pbContPlaca" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContPlaca}" title="Informe a Placa" required="true" requiredMessage="O campo Placa é obrigatório." />
+                        </p:panelGrid>
+                    </p:tab>
+                    <p:tab title="Dados do Contrato">
+                        <p:panelGrid columns="6" styleClass="semBorda">
+                            <p:outputLabel value="Tipo:" for="pbContTipo" />
+                            <p:inputText id="pbContTipo" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContTipo}" title="Informe o Tipo" required="true" requiredMessage="O campo Tipo é obrigatório." />
+                            <p:outputLabel value="Aditivo:" for="pbContAditivo" />
+                            <p:inputText id="pbContAditivo" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContAditivo}" title="Informe o Aditivo" required="true" requiredMessage="O campo Aditivo é obrigatório." />
+                            <p:outputLabel value="Nº Contrato:" for="pbContNum" />
+                            <p:inputText id="pbContNum" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContNum}" title="PbContNum" />
+                            <p:outputLabel value="PbContDtContrato:" for="pbContDtContrato" />
+                            <p:datePicker id="pbContDtContrato" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContDtContrato}" title="PbContDtContrato" />
+                            <p:outputLabel value="Vl Tx Contrato:" for="pbContValorTaxaContrato" />
+                            <p:inputText id="pbContValorTaxaContrato" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContValorTaxaContrato}" title="PbContValorTaxaContrato" />
+                            <p:outputLabel value="Vl Tx Mês:" for="pbContTaxaJurosMes" />
+                            <p:inputText id="pbContTaxaJurosMes" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContTaxaJurosMes}" title="PbContTaxaJurosMes" />
+                            <p:outputLabel value="Vl Tx Ano:" for="pbContTaxaJurosAno" />
+                            <p:inputText id="pbContTaxaJurosAno" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContTaxaJurosAno}" title="PbContTaxaJurosAno" />
+                            <p:outputLabel value="Total Financiamento:" for="pbContTotalFinanciamento" />
+                            <p:inputText id="pbContTotalFinanciamento" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContTotalFinanciamento}" title="PbContTotalFinanciamento" />
+                            <p:outputLabel value="Indicativo Juros Multa:" for="pbContIndicativoJurosMulta" />
+                            <p:inputText id="pbContIndicativoJurosMulta" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContIndicativoJurosMulta}" title="PbContIndicativoJurosMulta" />
+                            <p:outputLabel value="Valor Juros Multa:" for="pbContValorJurosMulta" />
+                            <p:inputText id="pbContValorJurosMulta" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContValorJurosMulta}" title="PbContValorJurosMulta" />
+                            <p:outputLabel value="Indicativo Mora Dia:" for="pbContIndicativoMoraDia" />
+                            <p:inputText id="pbContIndicativoMoraDia" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContIndicativoMoraDia}" title="PbContIndicativoMoraDia" />
+                            <p:outputLabel value="Valor Mora Dia:" for="pbContValorMoraDia" />
+                            <p:inputText id="pbContValorMoraDia" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContValorMoraDia}" title="PbContValorMoraDia" />
+                            <p:outputLabel value="Valor Iof:" for="pbContValorIof" />
+                            <p:inputText id="pbContValorIof" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContValorIof}" title="PbContValorIof" />
+                            <p:outputLabel value="Qtd Parcela:" for="pbContQuantidadeParcela" />
+                            <p:inputText id="pbContQuantidadeParcela" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContQuantidadeParcela}" title="PbContQuantidadeParcela" />
+                            <p:outputLabel value="Valor Parcela:" for="pbContValorParcela" />
+                            <p:inputText id="pbContValorParcela" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContValorParcela}" title="PbContValorParcela" />
+                            <p:outputLabel value="Venc 1ª Parcela:" for="pbContVencPrimeiraParcela" />
+                            <p:datePicker id="pbContVencPrimeiraParcela" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContVencPrimeiraParcela}" title="PbContVencPrimeiraParcela" />
+                            <p:outputLabel value="Venc Ultima Parcela:" for="pbContVencUltimaParcela" />
+                            <p:datePicker id="pbContVencUltimaParcela" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContVencUltimaParcela}" title="PbContVencUltimaParcela" />
+                            <p:outputLabel value="Comissao:" for="pbContComissao" />
+                            <p:inputText id="pbContComissao" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContComissao}" title="PbContComissao" />
+                            <p:outputLabel value="Valor Comissao:" for="pbContValorComissao" />
+                            <p:inputText id="pbContValorComissao" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContValorComissao}" title="PbContValorComissao" />
+                            <p:outputLabel value="Data do Credito:" for="pbContDataCredito" />
+                            <p:datePicker id="pbContDataCredito" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContDataCredito}" title="PbContDataCredito" />
+                            <p:outputLabel value="tUf de Pagamento:" for="pbContUfPagamento" />
+                            <p:inputText id="pbContUfPagamento" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContUfPagamento}" title="PbContUfPagamento" />
+                            <p:outputLabel value="Cidade de Pagamento:" for="pbContCidadePagamento" />
+                            <p:inputText id="pbContCidadePagamento" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContCidadePagamento}" title="PbContCidadePagamento" />
+                            <p:outputLabel value="Indicativo Penalidade:" for="pbContIndicativoPenalidade" />
+                            <p:inputText id="pbContIndicativoPenalidade" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContIndicativoPenalidade}" title="PbContIndicativoPenalidade" />
+                            <p:outputLabel value="Penalidade:" for="pbContPenalidade" />
+                            <p:inputText id="pbContPenalidade" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContPenalidade}" title="PbContPenalidade" />
+                            <p:outputLabel value="Descricao Taxa Juros:" for="pbContDescricaoTaxaJuros" />
+                            <p:inputText id="pbContDescricaoTaxaJuros" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContDescricaoTaxaJuros}" title="PbContDescricaoTaxaJuros" />
+                            <p:outputLabel value="Indice:" for="pbContIndice" />
+                            <p:inputText id="pbContIndice" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContIndice}" title="PbContIndice" />
+                            <p:outputLabel value="Nº Grupo:" for="pbContNumeroGrupo" />
+                            <p:inputText id="pbContNumeroGrupo" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContNumeroGrupo}" title="PbContNumeroGrupo" />
+                            <p:outputLabel value="Nº Cota:" for="pbContNumeroCota" />
+                            <p:inputText id="pbContNumeroCota" value="#{pbContratoVeiculoBean.pbContratoVeiculo.pbContNumeroCota}" title="PbContNumeroCota" />
+                            <f:facet name="footer">                                              
+                                <p:commandButton value="Salvar" onclick="PF('dlAltContratoVeiculo').hide()" action="#{pbContratoVeiculoBean.editContratoVeic()}" update="@form :frmListContratoVeiculo" />                    
+                                &nbsp;                                              
+                                <p:commandButton value="Cancelar" onclick="PF('dlAltContratoVeiculo').hide()"/>
+                            </f:facet>
+                        </p:panelGrid>
+                    </p:tab>
+                </p:accordionPanel>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

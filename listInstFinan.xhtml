@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition template="../layout/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:define name="content">
+        <h:form id="frmListInstFinan">
+            <p:growl id="growl" showDetail="true"/>     
+            <p:panel header="Instituição Financeira">                
+                <f:facet name="footer">                                              
+                    <p:commandButton value="Nova" action="#{pbInstFinanBean.limparObjetoPbInstFinan()}" onclick="PF('dlCadInstFinan').show()" update=":frmDlCadInstFinan" />
+                    &nbsp;
+                    <p:commandButton value="Pesquisar" action="#{indexManager.voltar()}" />                                   
+                    <p:commandButton value="Voltar" action="#{indexManager.voltar()}" style="float: right" />
+                </f:facet>
+            </p:panel>
+            <p:dataTable id="instFinan" 
+                         var="i" 
+                         value="#{pbInstFinanBean.findAll()}"  
+                         rows="8"
+                         paginator="true" 
+                         paginatorAlwaysVisible="false"  
+                         paginatorPosition="bottom"
+                         emptyMessage="Nenhum Registro Encontrado">
+                <f:facet name="header">
+                    Instituições Financeiras Cadastradas
+                </f:facet>
+                <p:column style="width: 5%" headerText="Id">
+                    <h:outputText value="#{i.pbId}" />
+                </p:column>
+                <p:column headerText="CNPJ">
+                    <h:outputText value="#{i.pbFinanCnpj}" />
+                </p:column> 
+                <p:column headerText="Razão Social">
+                    <h:outputText value="#{i.pbFinanRazSocial}" />
+                </p:column>
+                <p:column headerText="Código Detran">
+                    <h:outputText value="#{i.pbFinanCodDetran}" />
+                </p:column>
+                <p:column headerText="CEP">
+                    <h:outputText value="#{i.pbFinanCep}" />
+                </p:column>
+                <p:column headerText="Cidade"> 
+                    <h:outputText value="#{i.pbFinanCidade}" />
+                </p:column>            
+                <p:column headerText="Estado">
+                    <h:outputText value="#{i.pbFinanUf}" />
+                </p:column>
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Ações"/>
+                    </f:facet>                         
+                    <p:commandButton icon="pi pi-user-edit"
+                                     styleClass="edit-button rounded-button ui-button-info" 
+                                     action="#{pbInstFinanBean.buscaInstFinan(i)}"
+                                     title="Alterar Registro"
+                                     onclick="PF('dlAltInstFinan').show()" 
+                                     update=":frmDlAltInstFinan">
+                    </p:commandButton>&nbsp;
+                    <p:commandButton icon="pi pi-times"
+                                     styleClass="danger-button rounded-button ui-button-danger" action="#{pbInstFinanBean.delete(i)}"  
+                                     onclick="return confirm('Tem certeza que deseja Excluir o registro?')" 
+                                     title="Deletar Registro"/>           
+
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+
+        <p:dialog widgetVar="dlCadInstFinan" header="Instituição financeira" modal="true" appendTo="@(body)">
+            <h:form id="frmDlCadInstFinan" acceptcharset="ISO-8859-1" enctype="multipart/form-data">
+                <p:panel header="Cadastrar instituição financeira">       
+                    <p:panelGrid columns="6" styleClass="semBorda">
+                        <p:outputLabel value="CNPJ:" for="pbFinanCnpj" />
+                        <p:inputText id="pbFinanCnpj" value="#{pbInstFinanBean.pbInstFinan.pbFinanCnpj}" title="Informe o CNPJ" required="true" requiredMessage="O campo CNPJ é obrigatório."/>
+                        <p:outputLabel value="Razão Social:" for="pbFinanRazSocial" />
+                        <p:inputText id="pbFinanRazSocial" value="#{pbInstFinanBean.pbInstFinan.pbFinanRazSocial}" title="Informe a Razão Social" required="true" requiredMessage="O campo Razão Social é obrigatório."/>
+                        <p:outputLabel value="Código Detran:" for="pbFinanCodDetran" />
+                        <p:inputText id="pbFinanCodDetran" value="#{pbInstFinanBean.pbInstFinan.pbFinanCodDetran}" title="Informe o Código Detran" required="true" requiredMessage="O campo Código Detran é obrigatório." />
+                        <p:outputLabel value="Nome Fantasia:" for="pbFinanNmFantasia" />
+                        <p:inputText id="pbFinanNmFantasia" value="#{pbInstFinanBean.pbInstFinan.pbFinanNmFantasia}" title="Informe o Código Detran" required="true" requiredMessage="O campo Código Detran é obrigatório." />
+                        <p:outputLabel value="CEP:" for="pbFinanCep" />
+                        <p:inputMask id="pbFinanCep" value="#{pbInstFinanBean.pbInstFinan.pbFinanCep}" mask="99999-999" placeholder="99999-999" title="Informe o CEP" required="true" requiredMessage="O campo CEP é obrigatório." />
+                        <p:outputLabel value="Logradouro:" for="pbFinanLogr" />
+                        <p:inputText id="pbFinanLogr" value="#{pbInstFinanBean.pbInstFinan.pbFinanLogr}" title="Informe o Logradouro" required="true" requiredMessage="O campo Logradouro é obrigatório." />
+                        <p:outputLabel value="Nº:" for="pbFinanNum" />
+                        <p:inputText id="pbFinanNum" value="#{pbInstFinanBean.pbInstFinan.pbFinanNum}" title="Informe o Nº" required="true" requiredMessage="O campo Nº é obrigatório." />
+                        <p:outputLabel value="UF:" for="pbFinanUf" />
+                        <p:selectOneMenu id="pbFinanUf" value="#{pbInstFinanBean.pbInstFinan.pbFinanUf}" title="Informe o UF" required="true" requiredMessage="O campo UF é obrigatório.">                    
+                            <f:selectItem itemLabel="-----------------------" />                            
+                            <f:selectItem itemLabel="ACRE"                  itemValue="AC"/>	
+                            <f:selectItem itemLabel="ALAGOAS"		itemValue="AL"/>	
+                            <f:selectItem itemLabel="AMAPÁ"                 itemValue="AP"/>	
+                            <f:selectItem itemLabel="AMAZONAS"		itemValue="AM"/>	
+                            <f:selectItem itemLabel="BAHIA"                 itemValue="BA"/>	
+                            <f:selectItem itemLabel="CEARÁ"                 itemValue="CE"/>	
+                            <f:selectItem itemLabel="ESPÍRITO SANTO"	itemValue="ES"/>	
+                            <f:selectItem itemLabel="GOIÁS"                 itemValue="GO"/>	
+                            <f:selectItem itemLabel="MARANHÃO"		itemValue="MA"/>	
+                            <f:selectItem itemLabel="MATO GROSSO"	        itemValue="MT"/>	
+                            <f:selectItem itemLabel="MATO GROSSO DO SUL"	itemValue="MS"/>	
+                            <f:selectItem itemLabel="MINAS GERAIS"		itemValue="MG"/>	
+                            <f:selectItem itemLabel="PARÁ"			itemValue="PA"/>	
+                            <f:selectItem itemLabel="PARAÍBA"		itemValue="PB"/>	
+                            <f:selectItem itemLabel="PARANÁ"		itemValue="PR"/>	
+                            <f:selectItem itemLabel="PERNAMBUCO"		itemValue="PE"/>	
+                            <f:selectItem itemLabel="PIAUÍ"                 itemValue="PI"/>	
+                            <f:selectItem itemLabel="RIO DE JANEIRO"	itemValue="RJ"/>	
+                            <f:selectItem itemLabel="RIO GRANDE DO NORTE"	itemValue="RN"/>	
+                            <f:selectItem itemLabel="RIO GRANDE DO SUL"	itemValue="RS"/>	
+                            <f:selectItem itemLabel="RONDÔNIA"		itemValue="RO"/>	
+                            <f:selectItem itemLabel="RORAIMA"		itemValue="RR"/>	
+                            <f:selectItem itemLabel="SANTA CATARINA"	itemValue="SC"/>	
+                            <f:selectItem itemLabel="SÃO PAULO"		itemValue="SP"/>	
+                            <f:selectItem itemLabel="SERGIPE"		itemValue="SE"/>	
+                            <f:selectItem itemLabel="TOCANTINS"		itemValue="TO"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Cidade:" for="pbFinanCidade" />
+                        <p:inputText id="pbFinanCidade" value="#{pbInstFinanBean.pbInstFinan.pbFinanCidade}" title="Informe a Cidade" required="true" requiredMessage="O campo Cidade é obrigatório." />
+                        <p:outputLabel value="Bairro:" for="pbFinanBairro" />
+                        <p:inputText id="pbFinanBairro" value="#{pbInstFinanBean.pbInstFinan.pbFinanBairro}" title="Informe o Bairro" required="true" requiredMessage="O campo Bairro é obrigatório." />
+                        <p:outputLabel value="Complemento:" for="pbFinanComple" />
+                        <p:inputText id="pbFinanComple" value="#{pbInstFinanBean.pbInstFinan.pbFinanComple}" title="Informe o Complemento" />
+                        <p:outputLabel value="E-mail:" for="pbFinanEmail" />
+                        <p:inputText id="pbFinanEmail" value="#{pbInstFinanBean.pbInstFinan.pbFinanEmail}" title="Informe o E-mail" required="true" requiredMessage="O campo E-mail é obrigatório." />
+                        <p:outputLabel value="Telefone:" for="pbFinanTel" />
+                        <p:inputMask id="pbFinanTel" value="#{pbInstFinanBean.pbInstFinan.pbFinanTel}" mask="(99)9999-9999" validateMask="true" title="Informe o Telefone" required="true" requiredMessage="O campo Telefone é obrigatório." />
+                        <p:outputLabel value="Celular:" for="pbFinanCel" />
+                        <p:inputMask id="pbFinanCel" value="#{pbInstFinanBean.pbInstFinan.pbFinanCel}" mask="(99)99999-9999" validateMask="true" title="Informe o Celular" />                                        
+                    </p:panelGrid>
+                    <f:facet name="footer">                                              
+                        <p:commandButton value="Salvar" onclick="PF('dlCadInstFinan').hide()" action="#{pbInstFinanBean.addInstFinan()}" update="@form :frmListInstFinan" />                    
+                        &nbsp;                                              
+                        <p:commandButton value="Cancelar" onclick="PF('dlCadInstFinan').hide()"/>
+                    </f:facet>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog widgetVar="dlAltInstFinan" header="Instituição financeira" modal="true" appendTo="@(body)">
+            <h:form id="frmDlAltInstFinan" acceptcharset="ISO-8859-1" enctype="multipart/form-data">
+                <p:panel header="Alterar instituição financeira">       
+                    <p:panelGrid columns="6" styleClass="semBorda">
+                        <p:outputLabel value="CNPJ:" for="pbFinanCnpj" />
+                        <p:inputText id="pbFinanCnpj" value="#{pbInstFinanBean.pbInstFinan.pbFinanCnpj}" title="Informe o CNPJ" required="true" requiredMessage="O campo CNPJ é obrigatório."/>
+                        <p:outputLabel value="Razão Social:" for="pbFinanRazSocial" />
+                        <p:inputText id="pbFinanRazSocial" value="#{pbInstFinanBean.pbInstFinan.pbFinanRazSocial}" title="Informe a Razão Social" required="true" requiredMessage="O campo Razão Social é obrigatório."/>
+                        <p:outputLabel value="Código Detran:" for="pbFinanCodDetran" />
+                        <p:inputText id="pbFinanCodDetran" value="#{pbInstFinanBean.pbInstFinan.pbFinanCodDetran}" title="Informe o Código Detran" required="true" requiredMessage="O campo Código Detran é obrigatório." />
+                        <p:outputLabel value="Nome Fantasia:" for="pbFinanNmFantasia" />
+                        <p:inputText id="pbFinanNmFantasia" value="#{pbInstFinanBean.pbInstFinan.pbFinanNmFantasia}" title="Informe o Código Detran" required="true" requiredMessage="O campo Código Detran é obrigatório." />
+                        <p:outputLabel value="CEP:" for="pbFinanCep" />
+                        <p:inputMask id="pbFinanCep" value="#{pbInstFinanBean.pbInstFinan.pbFinanCep}" mask="99999-999" placeholder="99999-999" title="Informe o CEP" required="true" requiredMessage="O campo CEP é obrigatório." />
+                        <p:outputLabel value="Logradouro:" for="pbFinanLogr" />
+                        <p:inputText id="pbFinanLogr" value="#{pbInstFinanBean.pbInstFinan.pbFinanLogr}" title="Informe o Logradouro" required="true" requiredMessage="O campo Logradouro é obrigatório." />
+                        <p:outputLabel value="Nº:" for="pbFinanNum" />
+                        <p:inputText id="pbFinanNum" value="#{pbInstFinanBean.pbInstFinan.pbFinanNum}" title="Informe o Nº" required="true" requiredMessage="O campo Nº é obrigatório." />
+                        <p:outputLabel value="UF:" for="pbFinanUf" />
+                        <p:selectOneMenu id="pbFinanUf" value="#{pbInstFinanBean.pbInstFinan.pbFinanUf}" title="Informe o UF" required="true" requiredMessage="O campo UF é obrigatório.">                    
+                            <f:selectItem itemLabel="-----------------------" />                            
+                            <f:selectItem itemLabel="ACRE"                  itemValue="AC"/>	
+                            <f:selectItem itemLabel="ALAGOAS"		itemValue="AL"/>	
+                            <f:selectItem itemLabel="AMAPÁ"                 itemValue="AP"/>	
+                            <f:selectItem itemLabel="AMAZONAS"		itemValue="AM"/>	
+                            <f:selectItem itemLabel="BAHIA"                 itemValue="BA"/>	
+                            <f:selectItem itemLabel="CEARÁ"                 itemValue="CE"/>	
+                            <f:selectItem itemLabel="ESPÍRITO SANTO"	itemValue="ES"/>	
+                            <f:selectItem itemLabel="GOIÁS"                 itemValue="GO"/>	
+                            <f:selectItem itemLabel="MARANHÃO"		itemValue="MA"/>	
+                            <f:selectItem itemLabel="MATO GROSSO"	        itemValue="MT"/>	
+                            <f:selectItem itemLabel="MATO GROSSO DO SUL"	itemValue="MS"/>	
+                            <f:selectItem itemLabel="MINAS GERAIS"		itemValue="MG"/>	
+                            <f:selectItem itemLabel="PARÁ"			itemValue="PA"/>	
+                            <f:selectItem itemLabel="PARAÍBA"		itemValue="PB"/>	
+                            <f:selectItem itemLabel="PARANÁ"		itemValue="PR"/>	
+                            <f:selectItem itemLabel="PERNAMBUCO"		itemValue="PE"/>	
+                            <f:selectItem itemLabel="PIAUÍ"                 itemValue="PI"/>	
+                            <f:selectItem itemLabel="RIO DE JANEIRO"	itemValue="RJ"/>	
+                            <f:selectItem itemLabel="RIO GRANDE DO NORTE"	itemValue="RN"/>	
+                            <f:selectItem itemLabel="RIO GRANDE DO SUL"	itemValue="RS"/>	
+                            <f:selectItem itemLabel="RONDÔNIA"		itemValue="RO"/>	
+                            <f:selectItem itemLabel="RORAIMA"		itemValue="RR"/>	
+                            <f:selectItem itemLabel="SANTA CATARINA"	itemValue="SC"/>	
+                            <f:selectItem itemLabel="SÃO PAULO"		itemValue="SP"/>	
+                            <f:selectItem itemLabel="SERGIPE"		itemValue="SE"/>	
+                            <f:selectItem itemLabel="TOCANTINS"		itemValue="TO"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Cidade:" for="pbFinanCidade" />
+                        <p:inputText id="pbFinanCidade" value="#{pbInstFinanBean.pbInstFinan.pbFinanCidade}" title="Informe a Cidade" required="true" requiredMessage="O campo Cidade é obrigatório." />
+                        <p:outputLabel value="Bairro:" for="pbFinanBairro" />
+                        <p:inputText id="pbFinanBairro" value="#{pbInstFinanBean.pbInstFinan.pbFinanBairro}" title="Informe o Bairro" required="true" requiredMessage="O campo Bairro é obrigatório." />
+                        <p:outputLabel value="Complemento:" for="pbFinanComple" />
+                        <p:inputText id="pbFinanComple" value="#{pbInstFinanBean.pbInstFinan.pbFinanComple}" title="Informe o Complemento" />
+                        <p:outputLabel value="E-mail:" for="pbFinanEmail" />
+                        <p:inputText id="pbFinanEmail" value="#{pbInstFinanBean.pbInstFinan.pbFinanEmail}" title="Informe o E-mail" required="true" requiredMessage="O campo E-mail é obrigatório." />
+                        <p:outputLabel value="Telefone:" for="pbFinanTel" />
+                        <p:inputMask id="pbFinanTel" value="#{pbInstFinanBean.pbInstFinan.pbFinanTel}" mask="(99)9999-9999" validateMask="true" title="Informe o Telefone" required="true" requiredMessage="O campo Telefone é obrigatório." />
+                        <p:outputLabel value="Celular:" for="pbFinanCel" />
+                        <p:inputMask id="pbFinanCel" value="#{pbInstFinanBean.pbInstFinan.pbFinanCel}" mask="(99)99999-9999" validateMask="true" title="Informe o Celular" />                                      
+                    </p:panelGrid>
+                    <f:facet name="footer">                                              
+                        <p:commandButton value="Salvar" onclick="PF('dlAltInstFinan').hide()" action="#{pbInstFinanBean.editInstFinan()}" update="@form :frmListInstFinan" />                    
+                        &nbsp;                                              
+                        <p:commandButton value="Cancelar" onclick="PF('dlAltInstFinan').hide()"/>
+                    </f:facet>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+
+    </ui:define>
+</ui:composition>
